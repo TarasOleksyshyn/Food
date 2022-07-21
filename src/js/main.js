@@ -35,9 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Timer
-  const deadline = '2022-07-17';
+  const deadline = '2022-08-01';
   const promotionDate = document.querySelector('.promotion__date');
-  promotionDate.innerHTML = deadline.split('-').reverse().join('.');
+  promotionDate.innerText = deadline.split('-').reverse().join('.');
 
   function getTimeRemining(endtime) {
     let days, hours, minutes, seconds;
@@ -136,12 +136,12 @@ document.addEventListener('DOMContentLoaded', () => {
       this.price = price;
       this.classes = classes;
       this.parent = document.querySelector(parentSelector);
-      this.transfer = 30;
+      this.transfer = 30.1245321;
       this.changeToUAH();
     }
 
     changeToUAH() {
-      this.price = this.price * this.transfer;
+      this.price = (this.price * this.transfer).toFixed();
     }
 
     render() {
@@ -170,10 +170,9 @@ document.addEventListener('DOMContentLoaded', () => {
     "vegy",
     'Меню "Фитнес"',
     'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-    11,
+    11.31,
     '.menu .container',
-    // 'menu__item',
-    // 'test',
+    'menu__item',
   ).render();
 
   new MenuCard(
@@ -181,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "elite",
     'Меню “Премиум”',
     'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
-    18,
+    19.42,
     '.menu .container',
     'menu__item',
   ).render();
@@ -191,10 +190,55 @@ document.addEventListener('DOMContentLoaded', () => {
     "post",
     'Меню "Постное"',
     'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
-    14.5,
+    15.15,
     '.menu .container',
     'menu__item',
   ).render();
+
+  //Forms
+  const forms = document.querySelectorAll('form');
+  const messages = {
+    loading: 'Загрузка',
+    success: 'Все ок! Скоро ми з вами звяжемось',
+    failure: 'Ой! Щось пішло не так',
+  };
+
+  forms.forEach(item => {
+    postData(item);
+  });
+
+  function postData(form) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const statusMessage = document.createElement('div');
+      statusMessage.classList.add('status');
+      statusMessage.textContent = messages.loading;
+      form.append(statusMessage);
+
+      const request = new XMLHttpRequest();
+      request.open('POST', 'server.php');
+
+      request.setRequestHeader('Content-type', 'aplication/json');
+      const formData = new FormData(form);
+      const object = {};
+      formData.forEach(function (value, key) {
+        object[key] = value;
+      });
+      const json = JSON.stringify(object);
+
+      request.send(json);
+      request.addEventListener('load', () => {
+        if (request.status === 200) {
+          statusMessage.textContent = messages.success;
+          form.reset();
+          setTimeout(() => {
+            statusMessage.remove();
+          }, 1000);
+        } else {
+          statusMessage.textContent = messages.failure;
+        }
+      });
+    });
+  }
 });
-
-
