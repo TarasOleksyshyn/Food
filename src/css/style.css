@@ -644,3 +644,8 @@ a {
   width: 280px;
   margin: 0 auto;
 }
+
+.status {
+  display: block;
+  margin: 0 auto;
+}
