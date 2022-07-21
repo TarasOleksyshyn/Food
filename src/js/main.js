@@ -195,9 +195,19 @@ document.addEventListener('DOMContentLoaded', () => {
     'menu__item',
   ).render();
 
+  // new MenuCard(
+  //   "img/tabs/hamburger.jpg",
+  //   "balanced",
+  //   'Меню "Сбалансированное"',
+  //   'Меню "Сбалансированное" - это соответствие вашего рациона всем научным рекомендациям. Мы тщательно просчитываем вашу потребность и создаем лучшие блюда для вас.',
+  //   17.2,
+  //   '.menu .container',
+  //   'menu__item',
+  // );
+
   //Forms
   const forms = document.querySelectorAll('form');
-  const messages = {
+  const statusMessages = {
     loading: 'Загрузка',
     success: 'Все ок! Скоро ми з вами звяжемось',
     failure: 'Ой! Щось пішло не так',
@@ -213,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const statusMessage = document.createElement('div');
       statusMessage.classList.add('status');
-      statusMessage.textContent = messages.loading;
+      statusMessage.textContent = statusMessages.loading;
       form.append(statusMessage);
 
       const request = new XMLHttpRequest();
@@ -230,15 +240,17 @@ document.addEventListener('DOMContentLoaded', () => {
       request.send(json);
       request.addEventListener('load', () => {
         if (request.status === 200) {
-          statusMessage.textContent = messages.success;
+          statusMessage.textContent = statusMessages.success;
           form.reset();
           setTimeout(() => {
             statusMessage.remove();
           }, 1000);
         } else {
-          statusMessage.textContent = messages.failure;
+          statusMessage.textContent = statusMessages.failure;
         }
       });
     });
   }
+
+
 });
