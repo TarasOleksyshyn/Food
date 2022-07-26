@@ -134,9 +134,9 @@ document.addEventListener('DOMContentLoaded', () => {
       this.title = title;
       this.descr = descr;
       this.price = price;
-      this.classes = classes;
       this.parent = document.querySelector(parentSelector);
-      this.transfer = 30.1245321;
+      this.classes = classes;
+      this.transfer = 36.1245321;
       this.changeToUAH();
     }
 
@@ -165,45 +165,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  new MenuCard(
-    "img/tabs/vegy.jpg",
-    "vegy",
-    'Меню "Фитнес"',
-    'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-    11.31,
-    '.menu .container',
-    'menu__item',
-  ).render();
+  // getResource('http://localhost:3000/menu')
+  //   .then(data => {
 
-  new MenuCard(
-    "img/tabs/elite.jpg",
-    "elite",
-    'Меню “Премиум”',
-    'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
-    19.42,
-    '.menu .container',
-    'menu__item',
-  ).render();
-
-  new MenuCard(
-    "img/tabs/post.jpg",
-    "post",
-    'Меню "Постное"',
-    'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
-    15.15,
-    '.menu .container',
-    'menu__item',
-  ).render();
-
-  // new MenuCard(
-  //   "img/tabs/hamburger.jpg",
-  //   "balanced",
-  //   'Меню "Сбалансированное"',
-  //   'Меню "Сбалансированное" - это соответствие вашего рациона всем научным рекомендациям. Мы тщательно просчитываем вашу потребность и создаем лучшие блюда для вас.',
-  //   17.2,
-  //   '.menu .container',
-  //   'menu__item',
-  // );
+  //   });
+  axios.get('http://localhost:3000/menu')
+    .then(data => {
+      data.data.forEach(({ img, altimg, title, descr, price }) => {
+        new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+      });
+    });
 
   //Forms
   const forms = document.querySelectorAll('form');
@@ -214,10 +185,29 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   forms.forEach(item => {
-    postData(item);
+    bindPostData(item);
   });
 
-  function postData(form) {
+  const postData = async (url, data) => {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: data
+    });
+    return await res.json();
+  };
+
+  async function getResource(url) {
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error(`Could not fetch ${url}, status ${res.status}`);
+    }
+    return await res.json();
+  }
+
+  function bindPostData(form) {
     form.addEventListener('submit', (event) => {
       event.preventDefault();
 
@@ -227,21 +217,11 @@ document.addEventListener('DOMContentLoaded', () => {
       form.insertAdjacentElement('afterend', statusMessage);
 
       const formData = new FormData(form);
-      const object = {};
-      formData.forEach(function (value, key) {
-        object[key] = value;
-      });
 
-      fetch('server.php', {
-        method: "POST",
-        headers: {
-          'Content-type': 'aplication/json',
-        },
-        body: JSON.stringify(object),
-      })
-        .then(data => data.text())
+      const json = JSON.stringify(Object.fromEntries(formData.entries()));
+
+      postData('http://localhost:3000/requests', json)
         .then(data => {
-          console.log(data);
           showThanksModal(messages.success);
           statusMessage.remove();
         }).catch(() => {
@@ -275,5 +255,4 @@ document.addEventListener('DOMContentLoaded', () => {
       closeModal();
     }, 4000);
   }
-
 });
