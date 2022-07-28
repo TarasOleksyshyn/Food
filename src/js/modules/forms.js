@@ -1,7 +1,8 @@
 import { openModal, closeModal } from './modal';
+import { postData } from '../services/services';
 
-function forms(timerId) {
-  const forms = document.querySelectorAll('form');
+function forms(formSelector, timerId) {
+  const forms = document.querySelectorAll(formSelector);
   const messages = {
     loading: 'img/form/spinner.svg',
     success: 'Все ок! Скоро ми з вами звяжемось',
@@ -11,17 +12,6 @@ function forms(timerId) {
   forms.forEach(item => {
     bindPostData(item);
   });
-
-  const postData = async (url, data) => {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: data
-    });
-    return await res.json();
-  };
 
   async function getResource(url) {
     const res = await fetch(url);

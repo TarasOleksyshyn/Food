@@ -284,10 +284,12 @@ function cards() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modal */ "./src/js/modules/modal.js");
+/* harmony import */ var _services_services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/services */ "./src/js/services/services.js");
 
 
-function forms(timerId) {
-  const forms = document.querySelectorAll('form');
+
+function forms(formSelector, timerId) {
+  const forms = document.querySelectorAll(formSelector);
   const messages = {
     loading: 'img/form/spinner.svg',
     success: 'Все ок! Скоро ми з вами звяжемось',
@@ -297,17 +299,6 @@ function forms(timerId) {
   forms.forEach(item => {
     bindPostData(item);
   });
-
-  const postData = async (url, data) => {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: data
-    });
-    return await res.json();
-  };
 
   async function getResource(url) {
     const res = await fetch(url);
@@ -330,7 +321,7 @@ function forms(timerId) {
 
       const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-      postData('http://localhost:3000/requests', json)
+      Object(_services_services__WEBPACK_IMPORTED_MODULE_1__["postData"])('http://localhost:3000/requests', json)
         .then(data => {
           showThanksModal(messages.success);
           statusMessage.remove();
@@ -647,10 +638,35 @@ document.addEventListener('DOMContentLoaded', () => {
   Object(_modules_timer__WEBPACK_IMPORTED_MODULE_2__["default"])();
   Object(_modules_cards__WEBPACK_IMPORTED_MODULE_3__["default"])();
   Object(_modules_calc__WEBPACK_IMPORTED_MODULE_4__["default"])();
-  Object(_modules_forms__WEBPACK_IMPORTED_MODULE_5__["default"])(modalTimerId);
+  Object(_modules_forms__WEBPACK_IMPORTED_MODULE_5__["default"])('form', modalTimerId);
   Object(_modules_slider__WEBPACK_IMPORTED_MODULE_6__["default"])();
 
 });
+
+
+/***/ }),
+
+/***/ "./src/js/services/services.js":
+/*!*************************************!*\
+  !*** ./src/js/services/services.js ***!
+  \*************************************/
+/*! exports provided: postData */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postData", function() { return postData; });
+const postData = async (url, data) => {
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: data
+  });
+  return await res.json();
+};
+
 
 
 /***/ })
