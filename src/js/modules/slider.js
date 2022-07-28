@@ -1,9 +1,9 @@
-function slider() {
-  const slides = document.querySelectorAll('.offer__slide');
-  const prev = document.querySelector('.offer__slider-prev');
-  const next = document.querySelector('.offer__slider-next');
-  const totalSlides = document.querySelector('#total');
-  const currentSlide = document.querySelector('#current');
+function slider({ allSlidesSelector, totalSlidesCounter, currentSlideCounter, prevArrow, nextArrow, hideSelector }) {
+  const slides = document.querySelectorAll(allSlidesSelector);
+  const prev = document.querySelector(prevArrow);
+  const next = document.querySelector(nextArrow);
+  const totalSlides = document.querySelector(totalSlidesCounter);
+  const currentSlide = document.querySelector(currentSlideCounter);
   let slideIndex = 1;
 
   showSlide(slideIndex);
@@ -23,9 +23,9 @@ function slider() {
       slideIndex = slides.length;
     }
 
-    slides.forEach(item => item.classList.add('hide'));
+    slides.forEach(item => item.classList.add(hideSelector.slice(1)));
 
-    slides[slideIndex - 1].classList.remove('hide');
+    slides[slideIndex - 1].classList.remove(hideSelector.slice(1));
 
     if (slides.length < 10) {
       currentSlide.textContent = `0${slideIndex}`;

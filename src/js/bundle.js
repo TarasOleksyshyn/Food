@@ -428,12 +428,12 @@ function modal(btnsSelector, modalSelector, timerId) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function slider() {
-  const slides = document.querySelectorAll('.offer__slide');
-  const prev = document.querySelector('.offer__slider-prev');
-  const next = document.querySelector('.offer__slider-next');
-  const totalSlides = document.querySelector('#total');
-  const currentSlide = document.querySelector('#current');
+function slider({ allSlidesSelector, totalSlidesCounter, currentSlideCounter, prevArrow, nextArrow, hideSelector }) {
+  const slides = document.querySelectorAll(allSlidesSelector);
+  const prev = document.querySelector(prevArrow);
+  const next = document.querySelector(nextArrow);
+  const totalSlides = document.querySelector(totalSlidesCounter);
+  const currentSlide = document.querySelector(currentSlideCounter);
   let slideIndex = 1;
 
   showSlide(slideIndex);
@@ -453,9 +453,9 @@ function slider() {
       slideIndex = slides.length;
     }
 
-    slides.forEach(item => item.classList.add('hide'));
+    slides.forEach(item => item.classList.add(hideSelector.slice(1)));
 
-    slides[slideIndex - 1].classList.remove('hide');
+    slides[slideIndex - 1].classList.remove(hideSelector.slice(1));
 
     if (slides.length < 10) {
       currentSlide.textContent = `0${slideIndex}`;
@@ -641,7 +641,14 @@ document.addEventListener('DOMContentLoaded', () => {
   Object(_modules_cards__WEBPACK_IMPORTED_MODULE_3__["default"])();
   Object(_modules_calc__WEBPACK_IMPORTED_MODULE_4__["default"])();
   Object(_modules_forms__WEBPACK_IMPORTED_MODULE_5__["default"])('form', modalTimerId);
-  Object(_modules_slider__WEBPACK_IMPORTED_MODULE_6__["default"])();
+  Object(_modules_slider__WEBPACK_IMPORTED_MODULE_6__["default"])({
+    allSlidesSelector: '.offer__slide',
+    totalSlidesCounter: '#total',
+    currentSlideCounter: '#current',
+    prevArrow: '.offer__slider-prev',
+    nextArrow: '.offer__slider-next',
+    hideSelector: '.hide',
+  });
 
 });
 

@@ -17,6 +17,13 @@ document.addEventListener('DOMContentLoaded', () => {
   cards();
   calc();
   forms('form', modalTimerId);
-  slider();
+  slider({
+    allSlidesSelector: '.offer__slide',
+    totalSlidesCounter: '#total',
+    currentSlideCounter: '#current',
+    prevArrow: '.offer__slider-prev',
+    nextArrow: '.offer__slider-next',
+    hideSelector: '.hide',
+  });
 
 });
