@@ -18,11 +18,13 @@ function cards() {
 
     render() {
       const element = document.createElement('div');
+
       if (this.classes.length == 0) {
         element.classList.add('menu__item');
       } else {
         this.classes.forEach(className => element.classList.add(className));
       }
+
       element.innerHTML = `
         <img src=${this.src} alt=${this.alt}>
         <h3 class="menu__item-subtitle">${this.title}</h3>
@@ -33,6 +35,7 @@ function cards() {
         <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
         </div>
       `;
+
       this.parent.append(element);
     }
   }
