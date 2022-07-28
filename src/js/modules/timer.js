@@ -1,6 +1,5 @@
-function timer() {
-  const deadline = '2022-08-01';
-  const promotionDate = document.querySelector('.promotion__date');
+function timer(id, deadline, dateSelector) {
+  const promotionDate = document.querySelector(dateSelector);
   promotionDate.innerText = deadline.split('-').reverse().join('.');
 
   function getTimeRemining(endtime) {
@@ -57,7 +56,7 @@ function timer() {
       }
     }
   }
-  setClock('.timer', deadline);
+  setClock(id, deadline);
 }
 
 export default timer;

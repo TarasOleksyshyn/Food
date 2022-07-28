@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   tabs('.tabheader__item', '.tabcontent', '.tabheader__items', 'tabheader__item_active');
   modal('[data-modal]', '.modal', modalTimerId);
-  timer();
+  timer('.timer', '2022-08-01', '.promotion__date');
   cards();
   calc();
   forms('form', modalTimerId);
