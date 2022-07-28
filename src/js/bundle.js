@@ -286,7 +286,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modal */ "./src/js/modules/modal.js");
 
 
-function forms() {
+function forms(timerId) {
   const forms = document.querySelectorAll('form');
   const messages = {
     loading: 'img/form/spinner.svg',
@@ -346,7 +346,7 @@ function forms() {
     const prevModalDialog = document.querySelector('.modal__dialog');
 
     prevModalDialog.classList.add('hide');
-    Object(_modal__WEBPACK_IMPORTED_MODULE_0__["openModal"])();
+    Object(_modal__WEBPACK_IMPORTED_MODULE_0__["openModal"])('.modal', timerId);
 
     const thanksModal = document.createElement('div');
     thanksModal.classList.add('modal__dialog');
@@ -362,7 +362,7 @@ function forms() {
       thanksModal.remove();
       prevModalDialog.classList.add('show');
       prevModalDialog.classList.remove('hide');
-      Object(_modal__WEBPACK_IMPORTED_MODULE_0__["closeModal"])();
+      Object(_modal__WEBPACK_IMPORTED_MODULE_0__["closeModal"])('.modal');
     }, 4000);
   }
 }
@@ -647,7 +647,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Object(_modules_timer__WEBPACK_IMPORTED_MODULE_2__["default"])();
   Object(_modules_cards__WEBPACK_IMPORTED_MODULE_3__["default"])();
   Object(_modules_calc__WEBPACK_IMPORTED_MODULE_4__["default"])();
-  Object(_modules_forms__WEBPACK_IMPORTED_MODULE_5__["default"])();
+  Object(_modules_forms__WEBPACK_IMPORTED_MODULE_5__["default"])(modalTimerId);
   Object(_modules_slider__WEBPACK_IMPORTED_MODULE_6__["default"])();
 
 });
